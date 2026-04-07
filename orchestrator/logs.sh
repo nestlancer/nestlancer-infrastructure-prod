@@ -12,6 +12,12 @@ set -euo pipefail
 
 SERVICE="${1:-all-summary}"
 ENV="prod"
+# Follow live logs only when attached to a terminal (avoids hanging scripts/pipes)
+if [[ -t 1 ]]; then
+    LOG_FOLLOW=(-f)
+else
+    LOG_FOLLOW=()
+fi
 
 case "$SERVICE" in
     all-summary)
@@ -34,12 +40,12 @@ case "$SERVICE" in
             CONTAINER="${svc}-${ENV}"
             if docker inspect "$CONTAINER" >/dev/null 2>&1; then
                 echo "═══ $CONTAINER ═══"
-                docker logs --tail=50 -f "$CONTAINER" 2>&1 &
+                docker logs --tail=50 "${LOG_FOLLOW[@]}" "$CONTAINER" 2>&1 &
             fi
         done
         if docker inspect "postgres-replica-${ENV}" >/dev/null 2>&1; then
             echo "═══ postgres-replica-${ENV} ═══"
-            docker logs --tail=50 -f "postgres-replica-${ENV}" 2>&1 &
+            docker logs --tail=50 "${LOG_FOLLOW[@]}" "postgres-replica-${ENV}" 2>&1 &
         fi
         wait
         ;;
@@ -47,7 +53,7 @@ case "$SERVICE" in
         # Specific service for prod
         CONTAINER="${SERVICE}-${ENV}"
         if docker inspect "$CONTAINER" >/dev/null 2>&1; then
-            docker logs --tail=100 -f "$CONTAINER"
+            docker logs --tail=100 "${LOG_FOLLOW[@]}" "$CONTAINER"
         else
             echo "❌ Container $CONTAINER not found."
             echo "   Usage: $0 [postgres|postgres-replica|redis-cache|redis-pubsub|rabbitmq|meilisearch|clamav|all]"

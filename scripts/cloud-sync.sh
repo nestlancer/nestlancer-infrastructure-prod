@@ -52,7 +52,7 @@ SYNC_MODE="copy"
 # Format: "local_subpath:remote_folder_name"
 SYNC_TARGETS=(
     "postgres/pg_backups:postgres"
-    "rabbitmq/backups:rabbitmq"
+    "rabbitmq/rmq_backups:rabbitmq"
     "meilisearch/meili_data/dumps:meilisearch"
 )
 

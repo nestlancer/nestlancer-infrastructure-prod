@@ -90,7 +90,7 @@ backup: ## Backup RabbitMQ definitions
 restore: ## Restore RabbitMQ definitions from backup (FILE=path required)
 	@if [ -z "$(FILE)" ]; then echo "❌ Usage: make restore FILE=<backup_file>"; exit 1; fi
 	docker cp $(FILE) $(CONTAINER_NAME):/tmp/restore.json
-	docker exec $(CONTAINER_NAME) bash /usr/local/bin/scripts/restore.json
+	docker exec $(CONTAINER_NAME) bash /usr/local/bin/scripts/restore.sh /tmp/restore.json
 
 clean: ## Remove container + volume
 	$(DC) down -v

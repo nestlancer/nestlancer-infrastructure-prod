@@ -2,7 +2,7 @@
 # Meilisearch Service — Production Environment Makefile
 # ═══════════════════════════════════════════════════════════════
 
-.PHONY: help up down restart logs status build clean
+.PHONY: help up down restart logs status build clean backup restore
 
 # designate environment
 ENV := prod
@@ -55,6 +55,14 @@ logs: ## Tail logs
 
 status: ## Show container status
 	@docker inspect --format='  Container: {{.Name}} [{{.State.Status}}]' $(CONTAINER_NAME) 2>/dev/null || echo "  Container: NOT FOUND"
+
+backup: ## Trigger Meilisearch dump (API) inside container
+	docker exec $(CONTAINER_NAME) /usr/local/bin/scripts/backup.sh
+	@echo "✅ Backup complete for $(CONTAINER_NAME)"
+
+restore: ## Validate a dump path inside the container (FILE=path or basename under /meili_data/dumps)
+	@if [ -z "$(FILE)" ]; then echo "❌ Usage: make restore FILE=<dump_basename_or_container_path>"; exit 1; fi
+	docker exec $(CONTAINER_NAME) /usr/local/bin/scripts/restore.sh "$(FILE)"
 
 clean: ## Remove container + volume
 	$(DC) down -v
