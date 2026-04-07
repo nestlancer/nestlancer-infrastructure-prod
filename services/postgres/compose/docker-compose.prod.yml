@@ -1,0 +1,100 @@
+# ═══════════════════════════════════════════════════════════════
+# PostgreSQL — PROD Override
+# No host ports, read-only rootfs, security hardening, resource limits
+# ═══════════════════════════════════════════════════════════════
+name: pg-prod
+
+services:
+  postgres:
+    container_name: postgres-prod
+    # NO ports exposed — internal access only via gateway network
+    restart: unless-stopped
+    stop_grace_period: 2m
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /run
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETUID
+      - SETGID
+      - FOWNER
+      - DAC_READ_SEARCH
+      - DAC_OVERRIDE
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 1GB
+        reservations:
+          cpus: "0.25"
+          memory: 512MB
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "postgres-prod"
+    environment:
+      - APP_ENV=prod
+    labels:
+      com.project.environment: "prod"
+      com.project.isolation-domain: "pg-prod"
+    networks:
+      pg_internal:
+        ipv4_address: 172.22.1.2
+      gateway:
+ 
+  postgres-replica:
+    container_name: postgres-replica-prod
+    restart: unless-stopped
+    stop_grace_period: 2m
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /run
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETUID
+      - SETGID
+      - FOWNER
+      - DAC_READ_SEARCH
+      - DAC_OVERRIDE
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 512MB
+        reservations:
+          cpus: "0.1"
+          memory: 256MB
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "postgres-replica-prod"
+    environment:
+      - APP_ENV=prod
+    labels:
+      com.project.environment: "prod"
+      com.project.isolation-domain: "pg-prod"
+    networks:
+      pg_internal:
+        ipv4_address: 172.22.1.3
+      gateway:
+
+networks:
+  pg_internal:
+    name: pg_internal_prod
+  gateway:
+    name: gateway_prod_network
+

@@ -1,0 +1,37 @@
+# ═══════════════════════════════════════════════════════════════
+# ClamAV — PROD Overrides
+# ═══════════════════════════════════════════════════════════════
+
+name: clam-prod
+
+services:
+  clamav:
+    container_name: clamav-prod
+    restart: always
+    volumes:
+      - ../config/prod/clamd.conf:/etc/clamav/clamd.conf:ro
+    # NO ports exposed — internal access only via gateway network
+    # ports:
+    #   - "3310:3310"
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 2.5GB
+        reservations:
+          cpus: "0.5"
+          memory: 1.5GB
+    labels:
+      com.project.environment: "prod"
+      com.project.isolation-domain: "clam-prod"
+    networks:
+      clam_internal:
+        ipv4_address: 172.22.6.2
+      gateway:
+
+networks:
+  clam_internal:
+    name: clam_internal_prod
+  gateway:
+    name: gateway_prod_network
+

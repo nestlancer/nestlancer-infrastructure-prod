@@ -1,0 +1,37 @@
+# ═══════════════════════════════════════════════════════════════
+# Redis Cache — BASE Compose (common service definition)
+# Environment-specific overrides in docker-compose.{env}.yml
+# ═══════════════════════════════════════════════════════════════
+
+services:
+  redis-cache:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    env_file:
+      - ../env/${APP_ENV:-prod}.env
+    volumes:
+      - ${DATA_PATH_BASE}/rc_data:/data
+      - ../config/base/redis.conf:/etc/redis/base.conf:ro
+      - ../config/${APP_ENV:-prod}/redis.conf:/etc/redis/override.conf:ro
+      - ../scripts/healthcheck.sh:/usr/local/bin/healthcheck.sh:ro
+    entrypoint: ["/usr/local/bin/custom-entrypoint.sh"]
+    healthcheck:
+      test: ["CMD-SHELL", "/usr/local/bin/healthcheck.sh"]
+      interval: ${HEALTHCHECK_INTERVAL:-30s}
+      timeout: ${HEALTHCHECK_TIMEOUT:-10s}
+      retries: ${HEALTHCHECK_RETRIES:-5}
+      start_period: ${HEALTHCHECK_START:-10s}
+    labels:
+      com.project.service: "redis-cache"
+      com.project.managed-by: "docker-compose"
+    networks:
+      - rc_internal
+      - gateway
+
+networks:
+  rc_internal:
+    external: true
+  gateway:
+    external: true
+

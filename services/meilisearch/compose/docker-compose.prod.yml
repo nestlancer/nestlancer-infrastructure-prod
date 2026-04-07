@@ -1,0 +1,35 @@
+# ═══════════════════════════════════════════════════════════════
+# Meilisearch — PROD Overrides
+# ═══════════════════════════════════════════════════════════════
+ 
+name: meili-prod
+
+services:
+  meilisearch:
+    container_name: meilisearch-prod
+    restart: always
+    # NO ports exposed — internal access only via gateway network
+    # ports:
+    #   - "7700:7700"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 1GB
+        reservations:
+          cpus: "0.25"
+          memory: 512MB
+    labels:
+      com.project.environment: "prod"
+      com.project.isolation-domain: "meili-prod"
+    networks:
+      meili_internal:
+        ipv4_address: 172.22.5.2
+      gateway:
+
+networks:
+  meili_internal:
+    name: meili_internal_prod
+  gateway:
+    name: gateway_prod_network
+

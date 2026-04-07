@@ -1,0 +1,51 @@
+# ═══════════════════════════════════════════════════════════════
+# Redis Cache — PROD Override
+# No host ports, security hardening, resource limits
+# ═══════════════════════════════════════════════════════════════
+name: rc-prod
+
+services:
+  redis-cache:
+    container_name: redis-cache-prod
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /run
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETUID
+      - SETGID
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 512MB
+        reservations:
+          cpus: "0.1"
+          memory: 256MB
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "redis-cache-prod"
+    environment:
+      - APP_ENV=prod
+    labels:
+      com.project.environment: "prod"
+      com.project.isolation-domain: "rc-prod"
+    networks:
+      rc_internal:
+        ipv4_address: 172.22.2.2
+      gateway:
+
+networks:
+  rc_internal:
+    name: rc_internal_prod
+  gateway:
+    name: gateway_prod_network
+

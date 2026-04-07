@@ -1,0 +1,39 @@
+# ═══════════════════════════════════════════════════════════════
+# Infrastructure .gitignore
+# ═══════════════════════════════════════════════════════════════
+
+# Backup files
+services/postgres/backups/*
+!services/postgres/backups/.gitkeep
+
+# Docker volumes (if mounted locally)
+**/data/
+**/pgdata/
+
+# Secrets and credentials
+*.pem
+*.key
+*.crt
+*.p12
+*.jks
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
+
+# Cloud sync secrets
+scripts/.cloud-sync.env
+.cloud-sync.state
+logs/
+reports/

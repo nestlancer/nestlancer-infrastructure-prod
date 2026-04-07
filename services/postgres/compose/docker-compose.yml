@@ -1,0 +1,77 @@
+# ═══════════════════════════════════════════════════════════════
+# PostgreSQL — BASE Compose (common service definition)
+# This file contains everything shared across all environments.
+# Environment-specific overrides are in docker-compose.{env}.yml
+# ═══════════════════════════════════════════════════════════════
+
+services:
+  postgres:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    env_file:
+      - ../env/${APP_ENV:-prod}.env
+    volumes:
+      - ${DATA_PATH_BASE}/pg_data:/var/lib/postgresql/data
+      - ../config/base/postgresql.conf:/etc/postgresql/base.conf:ro
+      - ../config/${APP_ENV:-prod}/postgresql.conf:/etc/postgresql/override.conf:ro
+      - ../config/base/pg_hba.conf:/etc/postgresql/base_hba.conf:ro
+      - ../config/${APP_ENV:-prod}/pg_hba.conf:/etc/postgresql/override_hba.conf:ro
+      - ../init:/docker-entrypoint-initdb.d:ro
+      - ../scripts:/usr/local/bin/scripts:ro
+      - ${DATA_PATH_BASE}/pg_backups:/var/lib/postgresql/backups
+    entrypoint: ["/usr/local/bin/custom-entrypoint.sh"]
+    command: ["postgres"]
+    healthcheck:
+      test: ["CMD-SHELL", "/usr/local/bin/healthcheck.sh"]
+      interval: ${HEALTHCHECK_INTERVAL:-30s}
+      timeout: ${HEALTHCHECK_TIMEOUT:-10s}
+      retries: ${HEALTHCHECK_RETRIES:-5}
+      start_period: ${HEALTHCHECK_START:-30s}
+    labels:
+      com.project.service: "postgres"
+      com.project.managed-by: "docker-compose"
+    networks:
+      - pg_internal
+      - gateway
+    shm_size: 1gb
+ 
+  postgres-replica:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    env_file:
+      - ../env/${APP_ENV:-prod}.env
+    volumes:
+      - ${DATA_PATH_BASE}/pg_replica_data:/var/lib/postgresql/data
+      - ../config/base/postgresql.conf:/etc/postgresql/base.conf:ro
+      - ../config/${APP_ENV:-prod}/postgresql.conf:/etc/postgresql/override.conf:ro
+      - ../scripts:/usr/local/bin/scripts:ro
+    environment:
+      - PG_MODE=replica
+      - POSTGRES_MASTER_HOST=postgres
+    entrypoint: ["/usr/local/bin/custom-entrypoint.sh"]
+    command: ["postgres"]
+    healthcheck:
+      test: ["CMD-SHELL", "/usr/local/bin/healthcheck.sh"]
+      interval: ${HEALTHCHECK_INTERVAL:-30s}
+      timeout: ${HEALTHCHECK_TIMEOUT:-10s}
+      retries: ${HEALTHCHECK_RETRIES:-5}
+      start_period: ${HEALTHCHECK_START:-30s}
+    labels:
+      com.project.service: "postgres-replica"
+      com.project.managed-by: "docker-compose"
+    networks:
+      - pg_internal
+      - gateway
+    shm_size: 1gb
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+networks:
+  pg_internal:
+    external: true
+  gateway:
+    external: true
+

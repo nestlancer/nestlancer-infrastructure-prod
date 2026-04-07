@@ -1,0 +1,33 @@
+# ═══════════════════════════════════════════════════════════════
+# Meilisearch — BASE Compose (common service definition)
+# ═══════════════════════════════════════════════════════════════
+
+services:
+  meilisearch:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    env_file:
+      - ../env/${APP_ENV:-prod}.env
+    volumes:
+      - ${DATA_PATH_BASE}/meili_data:/meili_data
+      - ../scripts:/usr/local/bin/scripts:ro
+    healthcheck:
+      test: ["CMD-SHELL", "/usr/local/bin/healthcheck.sh"]
+      interval: ${HEALTHCHECK_INTERVAL:-30s}
+      timeout: ${HEALTHCHECK_TIMEOUT:-10s}
+      retries: ${HEALTHCHECK_RETRIES:-5}
+      start_period: ${HEALTHCHECK_START:-10s}
+    labels:
+      com.project.service: "meilisearch"
+      com.project.managed-by: "docker-compose"
+    networks:
+      - meili_internal
+      - gateway
+
+networks:
+  meili_internal:
+    external: true
+  gateway:
+    external: true
+

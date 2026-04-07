@@ -1,0 +1,34 @@
+# ═══════════════════════════════════════════════════════════════
+# RabbitMQ — PROD Override
+# ═══════════════════════════════════════════════════════════════
+
+name: rmq-prod
+
+services:
+  rabbitmq:
+    container_name: rabbitmq-prod
+    restart: always
+    environment:
+      - APP_ENV=prod
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1GB
+        reservations:
+          cpus: '0.2'
+          memory: 512MB
+    labels:
+      com.project.environment: "prod"
+      com.project.isolation-domain: "rmq-prod"
+    networks:
+      rmq_internal:
+        ipv4_address: 172.22.4.2
+      gateway:
+
+networks:
+  rmq_internal:
+    name: rmq_internal_prod
+  gateway:
+    name: gateway_prod_network
+

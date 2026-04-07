@@ -1,0 +1,44 @@
+# ═══════════════════════════════════════════════════════════════════
+# NETWORK CONFIGURATION — Production only (nestlancer-infrastructure-prod)
+# ═══════════════════════════════════════════════════════════════════
+
+project_prefix: "infra"
+
+environment: prod
+
+gateway:
+  name: gateway_prod_network
+  subnet: "172.22.0.0/24"
+  driver: bridge
+
+internal_services:
+  postgres:
+    name: pg_internal_prod
+    subnet: "172.22.1.0/28"
+    driver: bridge
+    internal: true
+  redis_cache:
+    name: rc_internal_prod
+    subnet: "172.22.2.0/28"
+    driver: bridge
+    internal: true
+  redis_pubsub:
+    name: rp_internal_prod
+    subnet: "172.22.3.0/28"
+    driver: bridge
+    internal: true
+  rabbitmq:
+    name: rmq_internal_prod
+    subnet: "172.22.4.0/28"
+    driver: bridge
+    internal: true
+  meilisearch:
+    name: meili_internal_prod
+    subnet: "172.22.5.0/28"
+    driver: bridge
+    internal: true
+  clamav:
+    name: clam_internal_prod
+    subnet: "172.22.6.0/28"
+    driver: bridge
+    internal: true

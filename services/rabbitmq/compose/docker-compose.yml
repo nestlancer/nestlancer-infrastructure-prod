@@ -1,0 +1,39 @@
+# ═══════════════════════════════════════════════════════════════
+# RabbitMQ — BASE Compose (common service definition)
+# Environment-specific overrides are in docker-compose.{env}.yml
+# ═══════════════════════════════════════════════════════════════
+
+services:
+  rabbitmq:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    env_file:
+      - ../env/${APP_ENV:-prod}.env
+    volumes:
+      - ${DATA_PATH_BASE}/rmq_data:/var/lib/rabbitmq
+      - ${DATA_PATH_BASE}/rmq_backups:/var/lib/rabbitmq/backups
+      - ../scripts:/usr/local/bin/scripts:ro
+      - ../config/base/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+      - ../config/base/enabled_plugins:/etc/rabbitmq/enabled_plugins:ro
+      - ../config/base/definitions.json.template:/etc/rabbitmq/definitions.json.template:ro
+      - ../config/${APP_ENV:-prod}/rabbitmq.conf:/etc/rabbitmq/conf.d/10-override.conf:ro
+    healthcheck:
+      test: ["CMD-SHELL", "/usr/local/bin/healthcheck.sh"]
+      interval: ${HEALTHCHECK_INTERVAL:-30s}
+      timeout: ${HEALTHCHECK_TIMEOUT:-10s}
+      retries: ${HEALTHCHECK_RETRIES:-5}
+      start_period: ${HEALTHCHECK_START:-30s}
+    labels:
+      com.project.service: "rabbitmq"
+      com.project.managed-by: "docker-compose"
+    networks:
+      - rmq_internal
+      - gateway
+
+networks:
+  rmq_internal:
+    external: true
+  gateway:
+    external: true
+

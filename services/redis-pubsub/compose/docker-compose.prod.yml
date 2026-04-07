@@ -1,0 +1,51 @@
+# ═══════════════════════════════════════════════════════════════
+# Redis Pub/Sub — PROD Override
+# No host ports, security hardening, resource limits
+# ═══════════════════════════════════════════════════════════════
+name: rp-prod
+
+services:
+  redis-pubsub:
+    container_name: redis-pubsub-prod
+    # NO ports exposed — internal access only
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /run
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETUID
+      - SETGID
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 256MB
+        reservations:
+          cpus: "0.1"
+          memory: 128MB
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+        tag: "redis-pubsub-prod"
+    environment:
+      - APP_ENV=prod
+    labels:
+      com.project.environment: "prod"
+      com.project.isolation-domain: "rp-prod"
+    networks:
+      rp_internal:
+        ipv4_address: 172.22.3.2
+      gateway:
+
+networks:
+  rp_internal:
+    name: rp_internal_prod
+  gateway:
+    name: gateway_prod_network
