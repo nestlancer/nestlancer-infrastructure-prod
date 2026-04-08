@@ -1,7 +1,50 @@
-# Redis Pub/Sub Service Unit
+<div align="center">
 
-Self-contained Redis pub/sub service optimized for message passing. No persistence — all data is ephemeral. This repository ships **production** configuration only (`ENV=prod` by default).
+# Redis Pub/Sub Service Unit — Production
 
+### Messaging engine · isolated 172.22.3.x network · ephemeral
+
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docs.docker.com/compose/)
+[![Linux](https://img.shields.io/badge/Host-Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://kernel.org/)
+
+<br/>
+
+**Production-ready**, self-contained Redis pub/sub service optimized for message passing. No persistence — all data is ephemeral. This repository ships **production** configuration only (`ENV=prod` by default).
+
+<br/>
+
+[Quick Start](#quick-start) •
+[Targets](#available-makefile-targets) •
+[Variables](#environment-variables) •
+[Key Differences](#key-differences-from-redis-cache) •
+[Troubleshooting](#troubleshooting)
+
+<br/>
+
+---
+
+</div>
+
+<br/>
+
+## Table of contents
+
+<details>
+<summary><b>Expand full outline</b></summary>
+
+- [Quick Start](#quick-start)
+- [Prerequisites](#prerequisites)
+- [Available Makefile Targets](#available-makefile-targets)
+- [Environment Variables](#environment-variables)
+- [Key Differences from Redis Cache](#key-differences-from-redis-cache)
+- [Port Mapping](#port-mapping)
+- [Standalone VPS Deployment](#standalone-vps-deployment)
+- [Troubleshooting](#troubleshooting)
+- [Health & Readiness](#health--readiness)
+
+</details>
+
+---
 ## Quick Start
 
 ```bash

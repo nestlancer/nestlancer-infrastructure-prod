@@ -1,7 +1,51 @@
-# PostgreSQL Service Unit
+<div align="center">
 
-Production-ready, self-contained PostgreSQL with automated configuration merging, multi-role initialization, SSL support, and optional read-replication. This repository ships **production** configuration only (`ENV=prod` by default).
+# PostgreSQL Service Unit — Production
 
+### Primary + Replica · isolated 172.22.1.x network · automated config merging
+
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docs.docker.com/compose/)
+[![Linux](https://img.shields.io/badge/Host-Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://kernel.org/)
+
+<br/>
+
+**Production-ready**, self-contained PostgreSQL with automated configuration merging, multi-role initialization, SSL support, and optional read-replication. This repository ships **production** configuration only (`ENV=prod` by default).
+
+<br/>
+
+[Quick Start](#quick-start) •
+[Architecture](#architecture-overview) •
+[Makefile](#makefile-targets) •
+[Security](#security-and-user-roles) •
+[Config](#configuration-merging)
+
+<br/>
+
+---
+
+</div>
+
+<br/>
+
+## Table of contents
+
+<details>
+<summary><b>Expand full outline</b></summary>
+
+- [Quick Start](#quick-start)
+- [Architecture Overview](#architecture-overview)
+- [Makefile Targets](#makefile-targets)
+- [Security and User Roles](#security-and-user-roles)
+- [Environment Variables](#environment-variables)
+- [Configuration Merging](#configuration-merging)
+- [Extensions](#extensions)
+- [Read replication](#read-replication)
+- [Backup and restore](#backup-and-restore)
+- [Directory layout](#directory-layout)
+
+</details>
+
+---
 ## Quick Start
 
 ```bash

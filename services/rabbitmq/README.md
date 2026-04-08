@@ -1,7 +1,44 @@
-# RabbitMQ Service Unit
+<div align="center">
 
-Self-contained RabbitMQ service with Management and Prometheus plugins enabled. This repository ships **production** configuration only (`ENV=prod` by default).
+# RabbitMQ Service Unit — Production
 
+### Message broker · isolated 172.22.4.x network · management + prometheus
+
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docs.docker.com/compose/)
+[![Linux](https://img.shields.io/badge/Host-Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://kernel.org/)
+
+<br/>
+
+**Production-ready**, self-contained RabbitMQ service with Management and Prometheus plugins enabled. This repository ships **production** configuration only (`ENV=prod` by default).
+
+<br/>
+
+[Quick Start](#quick-start) •
+[Management UI](#management-ui) •
+[Makefile Targets](#available-makefile-targets) •
+[Ports](#port-mapping)
+
+<br/>
+
+---
+
+</div>
+
+<br/>
+
+## Table of contents
+
+<details>
+<summary><b>Expand full outline</b></summary>
+
+- [Quick Start](#quick-start)
+- [Management UI](#management-ui)
+- [Available Makefile Targets](#available-makefile-targets)
+- [Port Mapping](#port-mapping)
+
+</details>
+
+---
 ## Quick Start
 
 ```bash

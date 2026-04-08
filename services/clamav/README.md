@@ -1,7 +1,48 @@
-# ClamAV Service Unit (Prod Only)
+<div align="center">
 
-Antivirus engine with custom memory optimizations and hourly signature updates (`FRESHCLAM_CHECKS=24`).
+# ClamAV Service Unit — Production
 
+### Antivirus engine · 172.22.6.x network · hourly signature updates
+
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docs.docker.com/compose/)
+[![Linux](https://img.shields.io/badge/Host-Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://kernel.org/)
+
+<br/>
+
+**Production-only:** Antivirus engine with custom memory optimizations and hourly signature updates (`FRESHCLAM_CHECKS=24`).
+
+<br/>
+
+[Quick Start](#quick-start) •
+[Usage](#usage-scanning) •
+[Signatures](#signature-updates) •
+[Config](#environment-variables) •
+[Health](#healthcheck)
+
+<br/>
+
+---
+
+</div>
+
+<br/>
+
+## Table of contents
+
+<details>
+<summary><b>Expand full outline</b></summary>
+
+- [Quick Start](#quick-start)
+- [Available Makefile Targets](#available-makefile-targets)
+- [Usage (Scanning)](#usage-scanning)
+- [Signature Updates](#signature-updates)
+- [Environment Variables](#environment-variables)
+- [Healthcheck](#healthcheck)
+- [Port Mapping](#port-mapping)
+
+</details>
+
+---
 ## Quick Start
 
 ```bash

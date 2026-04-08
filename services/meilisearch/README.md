@@ -1,7 +1,48 @@
-# Meilisearch Service Unit (Prod Only)
+<div align="center">
 
-Lightweight, lightning-fast search engine. Optimized for production with custom healthchecks and backup scripts.
+# Meilisearch Service Unit — Production
 
+### Search engine · 172.22.5.x network · lightning-fast
+
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docs.docker.com/compose/)
+[![Linux](https://img.shields.io/badge/Host-Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://kernel.org/)
+
+<br/>
+
+**Production-only:** Lightweight, lightning-fast search engine. Optimized for production with custom healthchecks and backup scripts.
+
+<br/>
+
+[Quick Start](#quick-start) •
+[Makefile](#available-makefile-targets) •
+[Config](#environment-variables) •
+[Backups](#backup--restore) •
+[Health](#healthcheck)
+
+<br/>
+
+---
+
+</div>
+
+<br/>
+
+## Table of contents
+
+<details>
+<summary><b>Expand full outline</b></summary>
+
+- [Quick Start](#quick-start)
+- [Available Makefile Targets](#available-makefile-targets)
+- [Environment Variables](#environment-variables)
+- [Backup & Restore](#backup--restore)
+- [Port Mapping](#port-mapping)
+- [Persistence](#persistence)
+- [Healthcheck](#healthcheck)
+
+</details>
+
+---
 ## Quick Start
 
 ```bash

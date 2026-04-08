@@ -1,7 +1,50 @@
-# Redis Cache Service Unit
+<div align="center">
 
-Self-contained Redis cache service with RDB+AOF persistence for maximum durability. This repository ships **production** configuration only (`ENV=prod` by default).
+# Redis Cache Service Unit — Production
 
+### High-performance cache · isolated 172.22.2.x network · RDB+AOF
+
+[![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docs.docker.com/compose/)
+[![Linux](https://img.shields.io/badge/Host-Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://kernel.org/)
+
+<br/>
+
+**Production-ready**, self-contained Redis cache service with RDB+AOF persistence for maximum durability. This repository ships **production** configuration only (`ENV=prod` by default).
+
+<br/>
+
+[Quick Start](#quick-start) •
+[Targets](#available-makefile-targets) •
+[Variables](#environment-variables) •
+[Config](#config-files-base--override) •
+[Troubleshooting](#troubleshooting)
+
+<br/>
+
+---
+
+</div>
+
+<br/>
+
+## Table of contents
+
+<details>
+<summary><b>Expand full outline</b></summary>
+
+- [Quick Start](#quick-start)
+- [Prerequisites](#prerequisites)
+- [Available Makefile Targets](#available-makefile-targets)
+- [Environment Variables](#environment-variables)
+- [Config Files (Base + Override)](#config-files-base--override)
+- [Port Mapping](#port-mapping)
+- [Standalone VPS Deployment](#standalone-vps-deployment)
+- [Troubleshooting](#troubleshooting)
+- [Health & Readiness](#health--readiness)
+
+</details>
+
+---
 ## Quick Start
 
 ```bash
