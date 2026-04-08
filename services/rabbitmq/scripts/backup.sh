@@ -9,6 +9,16 @@ BACKUP_FILE="${BACKUP_DIR}/rabbitmq-${ENV_TAG}-definitions-${TIMESTAMP}.json"
 
 echo "Starting RabbitMQ definitions backup..."
 
+# Wait for RabbitMQ to be ready
+echo "Waiting for RabbitMQ to be ready..."
+for i in {1..30}; do
+    if rabbitmq-diagnostics -q check_running; then
+        break
+    fi
+    echo "  Still waiting... ($i/30)"
+    sleep 2
+done
+
 # Ensure backup directory exists
 mkdir -p "${BACKUP_DIR}"
 

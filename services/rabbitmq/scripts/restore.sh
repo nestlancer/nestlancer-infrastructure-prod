@@ -14,7 +14,15 @@ if [ ! -f "${BACKUP_FILE}" ]; then
     exit 1
 fi
 
-echo "Starting RabbitMQ definitions restore from ${BACKUP_FILE}..."
+# Wait for RabbitMQ to be ready
+echo "Waiting for RabbitMQ to be ready..."
+for i in {1..30}; do
+    if rabbitmq-diagnostics -q check_running; then
+        break
+    fi
+    echo "  Still waiting... ($i/30)"
+    sleep 2
+done
 
 # Import definitions
 if rabbitmqadmin -u "${RABBITMQ_DEFAULT_USER}" -p "${RABBITMQ_DEFAULT_PASS}" import "${BACKUP_FILE}"; then

@@ -96,8 +96,12 @@ backup: ## Backup database
 
 restore: ## Restore from backup (FILE=path required)
 	@if [ -z "$(FILE)" ]; then echo "❌ Usage: make restore FILE=<backup_file>"; exit 1; fi
-	docker cp $(FILE) $(CONTAINER_NAME):/tmp/restore.sql.gz
-	docker exec $(CONTAINER_NAME) bash /usr/local/bin/scripts/restore.sh /tmp/restore.sql.gz
+	docker cp $(FILE) $(CONTAINER_NAME):/var/lib/postgresql/backups/restore.sql.gz
+	docker exec $(CONTAINER_NAME) bash /usr/local/bin/scripts/restore.sh /var/lib/postgresql/backups/restore.sql.gz
+
+list-backups: ## List available backups (host paths)
+	@echo "Available backups for $(CONTAINER_NAME):"
+	@ls -1 $(DATA_PATH_BASE)/pg_backups/*.sql.gz 2>/dev/null || echo "  (no backups found)"
 
 clean: ## Remove container + volume
 	$(DC) down -v

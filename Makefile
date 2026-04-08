@@ -12,6 +12,7 @@
     rabbitmq-up rabbitmq-down rabbitmq-restart rabbitmq-logs rabbitmq-shell rabbitmq-status rabbitmq-backup rabbitmq-restore \
     meilisearch-up meilisearch-down meilisearch-restart meilisearch-logs meilisearch-status \
     clamav-up clamav-down clamav-restart clamav-logs clamav-status \
+    postgres-backups-list rabbitmq-backups-list \
     isolation-test \
     clean prune
 
@@ -194,6 +195,15 @@ clamav-logs: ## Tail clamav logs
 
 clamav-status: ## Show clamav status
 	@$(MAKE) -C $(SERVICES_DIR)/clamav status
+
+# ══════════════════════════════════════════════
+# Backup Listing
+# ══════════════════════════════════════════════
+postgres-backups-list: ## List all postgres backups
+	@$(MAKE) -C $(SERVICES_DIR)/postgres list-backups
+
+rabbitmq-backups-list: ## List all rabbitmq backups
+	@$(MAKE) -C $(SERVICES_DIR)/rabbitmq list-backups
 
 # ══════════════════════════════════════════════
 # Validation
