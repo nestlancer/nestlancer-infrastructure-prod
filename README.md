@@ -7,7 +7,7 @@
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://docs.docker.com/compose/)
 [![Linux](https://img.shields.io/badge/Host-Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://kernel.org/)
 [![Tailscale](https://img.shields.io/badge/Access-Tailscale-000000?style=for-the-badge)](https://tailscale.com/)
-[![Architecture](https://img.shields.io/badge/Spec-architecture--prod.md-3498DB?style=for-the-badge)](./architecture-prod.md)
+
 
 <br/>
 
@@ -63,7 +63,7 @@
 
 # 1. Overview & setup
 
-> **Scope:** This repository defines **one** environment: **production**. There are no dev/test compose targets, Mailpit, or MinIO here. Full diagrams, limits, and DR detail: **[architecture-prod.md](./architecture-prod.md)**.
+> **Scope:** This repository defines **one** environment: **production**. There are no dev/test compose targets, Mailpit, or MinIO here.
 
 ---
 
@@ -120,7 +120,7 @@ Single Docker host: **seven** containers on **`172.22.x.x`**, gateway **`172.22.
 ```
 nestlancer-infrastructure-prod/
 ├── Makefile                    ← Root interface (prod only)
-├── architecture-prod.md        ← Full system specification
+
 ├── README.md                   ← This document
 ├── networks/
 │   ├── create-networks.sh
@@ -172,7 +172,7 @@ make env-up
 make env-status
 ```
 
-**After Tailscale routes are approved**, examples (see [architecture-prod.md](./architecture-prod.md) for exact DB names and users):
+**After Tailscale routes are approved**, examples:
 
 ```bash
 psql -h 172.22.1.2 -p 5432 -U nl_platform_app -d nl_platform_prod
@@ -296,7 +296,7 @@ cd scripts && ./backup-all.sh prod
 cd scripts && ./cloud-sync.sh --dry-run && ./cloud-sync.sh --status
 ```
 
-Retention and bucket layout are documented in **[architecture-prod.md](./architecture-prod.md)** (§12).
+Retention and bucket layout are configured internally.
 
 ---
 
@@ -310,7 +310,7 @@ Retention and bucket layout are documented in **[architecture-prod.md](./archite
 | **Health JSON** | `docker inspect --format='{{json .State.Health}}' postgres-prod \| jq` |
 | **Run healthcheck** | `docker exec postgres-prod /usr/local/bin/healthcheck.sh` |
 
-Webhook notifications for backup/sync outcomes are described in **architecture-prod.md** §13.
+Webhook notifications for backup/sync outcomes are configured internally.
 
 ---
 
@@ -334,7 +334,7 @@ Approve **all** advertised prod routes in the admin console, for example:
 sudo ./scripts/optimize-host.sh
 ```
 
-Tunables and persistence path are described in **architecture-prod.md** (aligned with swappiness, `somaxconn`, THP, etc.).
+Tunables and persistence path are aligned with swappiness, `somaxconn`, THP, etc.
 
 ---
 
@@ -441,7 +441,7 @@ docker exec -it postgres-prod psql -U nl_infra_admin -d nl_platform_prod
 
 ### Before go-live
 
-- [ ] Strong unique secrets in every `services/*/env/prod.env` (rotation policy per **architecture-prod.md** §6.4)
+- [ ] Strong unique secrets in every `services/*/env/prod.env`
 - [ ] **No** host `ports:` in prod overrides for any service
 - [ ] Hardening present where applicable: `read_only`, `tmpfs`, `cap_drop` / `cap_add`, `no-new-privileges` (see architecture §6)
 - [ ] `chmod 600 services/*/env/prod.env` and `scripts/.cloud-sync.env` (if used)
@@ -461,7 +461,7 @@ docker exec -it postgres-prod psql -U nl_infra_admin -d nl_platform_prod
 
 | Document | Contents |
 |:---------|:---------|
-| **[architecture-prod.md](./architecture-prod.md)** | Full topology, limits, health intervals, DR, mermaid flow, deployment checklist |
+
 | **`services/*/README.md`** | Service-specific runbooks |
 | **`scripts/cron.md`** | Example cron entries |
 | **`scripts/rclone.md`** | B2 / `rclone` configuration |
@@ -470,7 +470,7 @@ docker exec -it postgres-prod psql -U nl_infra_admin -d nl_platform_prod
 
 <div align="center">
 
-**Production Docker stack for Nestlancer** · Spec: **[architecture-prod.md](./architecture-prod.md)**
+**Production Docker stack for Nestlancer**
 
 <sub>Structure blended from internal <code>infrastructure/README.md</code> + <code>user-guide.md</code> patterns (prod-only); header style inspired by <a href="https://github.com/nestlancer/nestlancer-armory/blob/5368e09b73fc59d59bb6f5c03aa429bf15406077/monitoring/nest-sentinel/readme.md">Nest Sentinel</a>.</sub>
 
