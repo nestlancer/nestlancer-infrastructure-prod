@@ -8,6 +8,11 @@ services:
   meilisearch:
     container_name: meilisearch-prod
     restart: always
+    read_only: true
+    cap_drop:
+      - ALL
+    tmpfs:
+      - /tmp
     # NO ports exposed — internal access only via gateway network
     # ports:
     #   - "7700:7700"

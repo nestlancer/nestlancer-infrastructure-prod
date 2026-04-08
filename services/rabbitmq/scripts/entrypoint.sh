@@ -7,7 +7,7 @@ set -e
 # ═══════════════════════════════════════════════════════════════
 
 TEMPLATE="/etc/rabbitmq/definitions.json.template"
-FINAL="/etc/rabbitmq/definitions.json"
+FINAL="/tmp/definitions.json"
 
 echo "🔧 Generating RabbitMQ definitions..."
 

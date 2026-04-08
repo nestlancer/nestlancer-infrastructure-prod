@@ -8,6 +8,17 @@ services:
   rabbitmq:
     container_name: rabbitmq-prod
     restart: always
+    read_only: true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETUID
+      - SETGID
+    tmpfs:
+      - /tmp
+      - /var/run
+      - /run
     environment:
       - APP_ENV=prod
     deploy:

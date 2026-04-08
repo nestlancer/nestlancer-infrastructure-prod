@@ -8,6 +8,17 @@ services:
   clamav:
     container_name: clamav-prod
     restart: always
+    read_only: true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETUID
+      - SETGID
+    tmpfs:
+      - /tmp
+      - /run/clamav
+      - /var/lock
     volumes:
       - ../config/prod/clamd.conf:/etc/clamav/clamd.conf:ro
     # NO ports exposed — internal access only via gateway network
