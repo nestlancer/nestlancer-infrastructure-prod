@@ -86,17 +86,17 @@ Single Docker host: **seven** containers on **`172.22.x.x`**, gateway **`172.22.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         PRODUCTION DOCKER HOST                               │
+│                         PRODUCTION DOCKER HOST                              │
 │                                                                             │
 │   ┌─── PROD (172.22.x.x) ─────────────────────────────────────────────────┐ │
-│   │  postgres-prod          redis-cache-prod        rabbitmq-prod          │ │
-│   │  postgres-replica-prod  redis-pubsub-prod       meilisearch-prod       │ │
-│   │                                            clamav-prod                  │ │
-│   │  Gateway: gateway_prod_network  +  per-service internal networks        │ │
-│   │  Host ports: NONE — Tailscale / internal access only                      │ │
-│   └─────────────────────────────────────────────────────────────────────────┘ │
+│   │  postgres-prod          redis-cache-prod        rabbitmq-prod         │ │
+│   │  postgres-replica-prod  redis-pubsub-prod       meilisearch-prod      │ │
+│   │                                            clamav-prod                │ │
+│   │  Gateway: gateway_prod_network  +  per-service internal networks      │ │
+│   │  Host ports: NONE — Tailscale / internal access only                  │ │
+│   └───────────────────────────────────────────────────────────────────────┘ │
 │                                                                             │
-│   Data root (typical): /root/Desktop/docker-infra-data/prod/<service>/       │
+│   Data root (typical): /root/Desktop/docker-infra-data/prod/<service>/      │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -471,7 +471,5 @@ docker exec -it postgres-prod psql -U nl_infra_admin -d nl_platform_prod
 <div align="center">
 
 **Production Docker stack for Nestlancer**
-
-<sub>Structure blended from internal <code>infrastructure/README.md</code> + <code>user-guide.md</code> patterns (prod-only); header style inspired by <a href="https://github.com/nestlancer/nestlancer-armory/blob/5368e09b73fc59d59bb6f5c03aa429bf15406077/monitoring/nest-sentinel/readme.md">Nest Sentinel</a>.</sub>
 
 </div>
