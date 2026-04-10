@@ -19,8 +19,10 @@ services:
       - /tmp
       - /run/clamav
       - /var/lock
+      - /var/log/clamav
     volumes:
       - ../config/prod/clamd.conf:/etc/clamav/clamd.conf:ro
+      - ../config/prod/freshclam.conf:/etc/clamav/freshclam.conf:ro
     # NO ports exposed — internal access only via gateway network
     # ports:
     #   - "3310:3310"
